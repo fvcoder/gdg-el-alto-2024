@@ -8,6 +8,8 @@ import {
 import type { LinksFunction } from "@remix-run/node";
 
 import "./tailwind.css";
+import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css'
+import { ChatProvider } from "./hooks/useChat";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -32,7 +34,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <ChatProvider>
+          {children}
+        </ChatProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -42,4 +46,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />;
+}
+
+export function HydrateFallback() {
+  return (
+    <>
+      <p>Loading...</p>
+      <Scripts />
+    </>
+  );
 }
